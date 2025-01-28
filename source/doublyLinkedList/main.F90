@@ -11,8 +11,7 @@ program linked_list_test
     use lg_bubble_dbly_linked_list
     IMPLICIT NONE
 
-    integer ::  num_nodes
-    integer :: i
+    integer ::  i, num_args, num_nodes
     character(len=32) :: arg_buff
     character(len=1) :: print_arg !user will specify if position or radius is to be printed
     character(len=1) :: add_front_or_end
@@ -22,6 +21,15 @@ program linked_list_test
     type(linked_list) :: myListHead
     type(lg_bubble), POINTER :: ptr_to_bubble
 
+    num_args = command_argument_count()
+
+    if(num_args.ne.3) then
+        print *, "EXITING PROGRAM EARLY"
+        print *, "please specify 3 arguements: # of nodes, print preference ('r' = radius, 'p' = position, or 'a' for all)", &
+            ", and whether or not add nodes to the ('f')ront or ('e')nd"
+        
+        call exit(-1)
+    end if
 
     ! Get the total number of command-line arguments
     call get_command_argument(1, arg_buff)
