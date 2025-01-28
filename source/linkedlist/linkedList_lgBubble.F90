@@ -23,16 +23,16 @@ module lg_bubble_linked_list
     contains
 
         subroutine insert_node_front(this, node_value)
-            type(linked_list) :: this    !node we want to insert in front of
+            type(linked_list) :: this    !our linked list (stores 'head' pointing to start of list)
             type(lg_bubble), POINTER :: node_value    !value to be held by the node
-            type(list_node), POINTER :: new_node    !new node to be inserted behind the node, "this"
+            type(list_node), POINTER :: new_node    !new node to be inserted at start of list
 
             !create a new node for the list
             allocate(new_node)
 
             new_node%elem => node_value    !node element points to newly allocated value
             new_node%next => this%head    !new node's "next" pointer will now pointer to where this's "head" currently points
-            this%head => new_node    !this's "head" is updated to now points to the new node (inserted at start)
+            this%head => new_node    !this's "head" is updated to now point at the new node (inserted at start)
 
             return
         end subroutine insert_node_front
@@ -41,7 +41,7 @@ module lg_bubble_linked_list
             type(linked_list) :: this    !head of the list to traverse
             type(list_node), POINTER :: current_node
             type(lg_bubble), POINTER :: node_value    !value to be held by the node
-            type(list_node), POINTER :: new_node    !new node to be inserted behind the node, "this"
+            type(list_node), POINTER :: new_node    !new node to be inserted at end of list 
 
             allocate(new_node)
             new_node%elem => node_value
