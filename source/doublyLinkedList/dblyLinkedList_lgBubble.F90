@@ -70,6 +70,45 @@ module lg_bubble_dbly_linked_list
             return
         end subroutine insert_node_end
 
+        subroutine remove_node(node_to_remove)
+            type(list_node), POINTER :: node_to_remove
+            
+            if(associated(node_to_remove)) then
+                node_to_remove%prev%next => node_to_remove%next
+                deallocate(node_to_remove)
+            end if
+
+            return
+        end subroutine remove_node
+
+        subroutine remove_node_at(this, node_idx)
+            type(linked_list) :: this
+            type(list_node), POINTER :: current_node
+            integer :: node_idx
+            integer :: node_count
+
+            node_count = 1
+
+            current_node => this%head
+            if(associated(current_node)) then
+                !traverse to specified list index
+                do while(associated(current_node))
+                if(.not.(associated(current_node%next))) exit
+                node_count = node_count + 1    !increment index counter
+                current_node => current_node%next
+                if(node_count.eq.node_idx) exit
+                end do
+
+                if(node_count.eq.node_idx) then
+                    call remove_node(current_node)
+                    return
+                end if 
+            end if
+           
+            print *, "Node at index = ", node_idx, " was not found (exceeds list size)"
+            return
+        end subroutine remove_node_at
+
         subroutine print_list(this, param)
 
             type(linked_list) :: this    !node we want to start printing from
